@@ -1,4 +1,4 @@
-# GROUP-NAME - lab NUMBER - variant NUMBER
+# Kirov reporting！- lab 1 - variant 3 - Set based on binary tree
 
 This is an example project which demonstrates project structure and necessary
 CI checks. It is not the best structure for real-world projects, but good
@@ -16,15 +16,12 @@ enough for educational purposes.
 
 ## Contribution
 
-- Aleksandr Penskoi (EMAIL) -- all work.
+- Sun Jiajian (sunakagi@163.com) -- .
+- Yang Liang (2663048219@qq.com) -- .
 
 ## Changelog
 
-- 29.03.2022 - 2
-  - Add test coverage.
-- 29.03.2022 - 1
-  - Update README. Add formal sections.
-- 29.03.2022 - 0
+- 12.02.2022 - 0
   - Initial
 
 ## Design notes
