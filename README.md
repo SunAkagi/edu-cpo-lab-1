@@ -22,7 +22,7 @@ enough for educational purposes.
 ## Changelog
 
 - 12.02.2022 - 0
-  - Initial
+   - Initial
 
 ## Design notes
 
