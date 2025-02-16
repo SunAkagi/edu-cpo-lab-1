@@ -24,7 +24,7 @@ class TestBinarySearchTree(unittest.TestCase):
         # Delete existing values and verify they are gone
         self.bst.delete(30)
         self.assertFalse(self.bst.search(30))
-        
+
         # Ensure other nodes remain intact
         self.assertTrue(self.bst.search(20))
         self.assertTrue(self.bst.search(40))
@@ -36,11 +36,11 @@ class TestBinarySearchTree(unittest.TestCase):
 
     def test_traversals(self):
         # Check traversal methods
-        self.assertEqual(self.bst.inorder_traversal(), \
+        self.assertEqual(self.bst.inorder_traversal(), 
                          [20, 30, 40, 50, 60, 70, 80])
-        self.assertEqual(self.bst.preorder_traversal(), \
+        self.assertEqual(self.bst.preorder_traversal(), 
                          [50, 30, 20, 40, 70, 60, 80])
-        self.assertEqual(self.bst.postorder_traversal(), \
+        self.assertEqual(self.bst.postorder_traversal(), 
                          [20, 40, 30, 60, 80, 70, 50])
 
 
