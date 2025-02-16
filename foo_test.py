@@ -41,14 +41,14 @@ class TestBinarySearchTree(unittest.TestCase):
         self.assertEqual(self.bst.postorder_traversal(), [20, 40, 30, 60, 80, 70, 50])
 
 class TestBSTProperties(unittest.TestCase):
-    @given(st.lists(st.integers().unique()))  
+    @given(st.lists(st.integers(), unique=True))  # 确保生成唯一值的列表
     def test_inorder_traversal_is_sorted(self, values):
         bst = BinarySearchTree()
         for value in values:
             bst.insert(value)
         self.assertEqual(sorted(values), bst.inorder_traversal())
 
-    @given(st.lists(st.integers().unique()), st.integers())
+    @given(st.lists(st.integers(), unique=True), st.integers())
     def test_search_after_insertion(self, values, key):
         bst = BinarySearchTree()
         for value in values:
@@ -56,7 +56,7 @@ class TestBSTProperties(unittest.TestCase):
         bst.insert(key)
         self.assertTrue(bst.search(key))
 
-    @given(st.lists(st.integers().unique()), st.integers())
+    @given(st.lists(st.integers(), unique=True), st.integers())
     def test_delete_and_search(self, values, key):
         bst = BinarySearchTree()
         for value in values:
