@@ -1,7 +1,7 @@
 import unittest
 from hypothesis import given,  strategies as st
 
-from foo import BinarySearchTree，TreeNode
+from foo import BinarySearchTree,TreeNode
         
 class TestBinarySearchTree(unittest.TestCase):
     def setUp(self):
