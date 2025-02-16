@@ -36,11 +36,11 @@ class TestBinarySearchTree(unittest.TestCase):
 
     def test_traversals(self):
         # Check traversal methods
-        self.assertEqual(self.bst.inorder_traversal(), 
+        self.assertEqual(self.bst.inorder_traversal(),
                          [20, 30, 40, 50, 60, 70, 80])
-        self.assertEqual(self.bst.preorder_traversal(), 
+        self.assertEqual(self.bst.preorder_traversal(),
                          [50, 30, 20, 40, 70, 60, 80])
-        self.assertEqual(self.bst.postorder_traversal(), 
+        self.assertEqual(self.bst.postorder_traversal(),
                          [20, 40, 30, 60, 80, 70, 50])
 
 
