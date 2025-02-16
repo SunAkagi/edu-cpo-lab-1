@@ -4,10 +4,11 @@ class TreeNode:
         self.right = None
         self.val = key
 
+
 class BinarySearchTree:
     def __init__(self):
         self.root = None
-    
+
     def insert(self, key):
         if self.search(key):
             return
@@ -48,7 +49,7 @@ class BinarySearchTree:
     def _delete(self, root, key):
         if root is None:
             return root
-        
+
         if key < root.val:
             root.left = self._delete(root.left, key)
         elif key > root.val:
@@ -59,12 +60,11 @@ class BinarySearchTree:
                 return root.right
             elif root.right is None:
                 return root.left
-            
-            # Node with two children: Get the inorder successor (smallest in the right subtree)
+
             root.val = self._minValueNode(root.right).val
             # Delete the inorder successor
             root.right = self._delete(root.right, root.val)
-        
+
         return root
 
     def _minValueNode(self, node):
