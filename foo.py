@@ -9,6 +9,8 @@ class BinarySearchTree:
         self.root = None
     
     def insert(self, key):
+        if self.search(key):
+            return
         if self.root is None:
             self.root = TreeNode(key)
         else:
@@ -37,6 +39,10 @@ class BinarySearchTree:
         return self._search(root.right, key)
 
     def delete(self, key):
+        if self.root is None:
+            raise ValueError(f"Tree is empty, cannot delete key {key}")
+        if not self.search(key):
+            raise ValueError(f"Key {key} not found in the tree.")
         self.root = self._delete(self.root, key)
 
     def _delete(self, root, key):
