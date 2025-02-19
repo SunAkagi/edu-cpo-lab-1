@@ -13,7 +13,9 @@ on the binary search tree is linear with respect to the height of the tree.
 
 ## Implementation restrictions
 
-- Unbalanced Tree -- Tree could be unbalanced, specially when the input is
+- Unbalanced Tree --
+
+Tree could be unbalanced, specially when the input is
 sorted, which can significantly increase the time complexity. An AVL tree
 or Red-Black tree, which automatically balances the tree after each insertion
 or deletion.These balanced trees ensure that the operations remain O(log n)
@@ -21,7 +23,9 @@ even in the worst case. Also, a easy way to rebalance the tree is insert
 nodes in a more randomized fashion, like using a Treap (a BST combined
 with a heap).
 
-- Iterative methods -- The current traversal methods use recursion, which
+- Iterative methods --
+
+The current traversal methods use recursion, which
 can be inefficient for large trees due to the risk of stack overflow. We
 could optimize the traversal methods to be iterative using a stack or queue.
 
@@ -40,7 +44,9 @@ def inorder_traversal(self):
     return result
 ```
 
-- Deletion Performance -- The current deletion approach for nodes with two
+- Deletion Performance --
+
+The current deletion approach for nodes with two
 children involves finding the inorder successor and deleting it. One optimization
 here could be to replace the current node’s value with the successor’s value, and
 then delete the successor (which will never have both children). This simplifies
@@ -223,13 +229,16 @@ not properly tuned, it might create impractical or irrelevant inputs.
 ### **When to Use Property-Based Testing (PBT):**
 
 - To test the general properties of the program.
-- For automatically generating a large number of test cases across a broad input space.
+- For automatically generating a large number of test cases.
 - To uncover edge cases and bugs that are hard to identify manually.
 - Suitable for large and complex input spaces.
 
 ## **Recommended Approach:**
 
-- **Combining Both Approaches:** The ideal approach is to use both unit testing and
+- **Combining Both Approaches:**
+
+The ideal approach is to use both unit testing and
 property-based testing together. Unit tests ensure that the system works as expected
-for known use cases, while PBT can help discover edge cases and validate broader properties
-of the system. This combination maximizes the reliability and robustness of your code.
+for known use cases, while PBT can help discover edge cases and validate broader
+properties of the system. This combination maximizes the reliability and robustness
+of your code.
