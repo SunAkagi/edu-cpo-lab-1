@@ -45,7 +45,7 @@ class TestBinarySearchTree(unittest.TestCase):
 
 
 class TestBSTProperties(unittest.TestCase):
-    @given(st.lists(st.integers(), unique=True))  # 确保生成唯一值的列表
+    @given(st.lists(st.integers(), unique=True))
     def test_inorder_traversal_is_sorted(self, values):
         bst = BinarySearchTree()
         for value in values:
