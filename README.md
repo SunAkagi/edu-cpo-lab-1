@@ -114,6 +114,7 @@ Unit testing ensures that individual parts of a program work as expected. It
 typically tests specific functions or methods in isolation.
 
 ### Advantages(Unit Test)
+
 - **Simple and Easy to Understand:**
 
   Unit tests such as `test_insert()`, `test_search()`, etc., are straightforward.
@@ -122,9 +123,9 @@ the logic easy to follow and maintain.
 
 - **Easy Debugging:**
 
-  If a unit test fails, it’s usually easy to track down the specific problem in the 
-corresponding test function. The isolated nature of the tests makes pinpointing
-issues simpler.
+  If a unit test fails, it’s usually easy to track down the specific problem
+in the corresponding test function. The isolated nature of the tests makes
+pinpointing issues simpler.
 
 - **Explicit Boundary Conditions:**
 
@@ -139,6 +140,7 @@ system.If a developer knows the expected outputs for certain inputs, the tests
 are relatively easy to create.
 
 ### Disadvantages(Unit test)
+
 - **Limited Coverage:**
 
   Unit tests often only cover common use cases. They may not uncover edge cases
@@ -158,11 +160,12 @@ bugs that arise under certain conditions or with unusual combinations of data.
 
 ## 2. Property-Based Testing (PBT)
 
-Property-based testing involves automatically generating a large number of test 
-cases to check the properties of the program. In this case, the `Hypothesis` 
+Property-based testing involves automatically generating a large number of test
+cases to check the properties of the program. In this case, the `Hypothesis`
 library in Python is used to generate random test inputs.
 
 ### Advantages(PBT Test)
+
 - **Wide Coverage:**
 
   The key strength of PBT is its ability to automatically generate a wide range
@@ -189,6 +192,7 @@ generated inputs. This makes it particularly useful when there are many potentia
 edge cases or when the input space is too large to cover manually.
 
 ### Disadvantages(PBT Test)
+
 - **Difficult to Debug:**
 
   When a PBT test fails, it can be difficult to track down the exact cause. The input
@@ -203,9 +207,9 @@ specific behavior or correctness under all conditions.
 
 - **Potential for Non-Representative Data:**
 
-  Since the data is generated randomly, there is a chance that the generated data may
-not be representative of real-world use cases. If the generation strategy is not properly
-tuned, it might create impractical or irrelevant inputs.
+  Since the data is generated randomly, there is a chance that the generated data
+may not be representative of real-world use cases. If the generation strategy is
+not properly tuned, it might create impractical or irrelevant inputs.
 
 ## Summary
 
@@ -224,6 +228,7 @@ tuned, it might create impractical or irrelevant inputs.
 - Suitable for large and complex input spaces.
 
 ## **Recommended Approach:**
+
 - **Combining Both Approaches:** The ideal approach is to use both unit testing and
 property-based testing together. Unit tests ensure that the system works as expected
 for known use cases, while PBT can help discover edge cases and validate broader properties
