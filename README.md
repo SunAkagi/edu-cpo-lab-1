@@ -102,6 +102,76 @@ def delete(self, key):
 - Sun Jiajian (sunakagi@163.com) -- .
 - Yang Liang (2663048219@qq.com) -- .
 
-## Advantages and disadvantages of unit test and PBT tests.
+## Analysis of Unit Testing and Property-Based Testing (PBT)
 
-- ...
+## 1. Unit Testing
+
+Unit testing ensures that individual parts of a program work as expected. It typically tests specific functions or methods in isolation.
+
+### Advantages:
+- **Simple and Easy to Understand:**
+  Unit tests such as `test_insert()`, `test_search()`, etc., are straightforward. Each test focuses on a specific behavior of the BST (Binary Search Tree), making the logic easy to follow and maintain.
+  
+- **Easy Debugging:**
+  If a unit test fails, it’s usually easy to track down the specific problem in the corresponding test function. The isolated nature of the tests makes pinpointing issues simpler.
+
+- **Explicit Boundary Conditions:**
+  Unit tests can explicitly test boundary conditions like an empty tree, deleting non-existing nodes, etc. These are intentional edge cases written by the developer to ensure the program handles them correctly.
+
+- **Quick to Implement:**
+  Unit tests can be written quickly for known or anticipated behaviors of the system. If a developer knows the expected outputs for certain inputs, the tests are relatively easy to create.
+
+### Disadvantages:
+- **Limited Coverage:**
+  Unit tests often only cover common use cases. They may not uncover edge cases or unexpected combinations of input and state. These are areas that might need additional attention.
+
+- **Manual Test Case Writing:**
+  Writing unit tests requires manually specifying each possible input and its expected outcome. This can become cumbersome, especially as the system grows in complexity.
+
+- **Doesn't Discover All Bugs:**
+  Unit tests generally verify specific behaviors. As a result, they might miss bugs that arise under certain conditions or with unusual combinations of data.
+
+## 2. Property-Based Testing (PBT)
+
+Property-based testing involves automatically generating a large number of test cases to check the properties of the program. In this case, the `Hypothesis` library in Python is used to generate random test inputs.
+
+### Advantages:
+- **Wide Coverage:**
+  The key strength of PBT is its ability to automatically generate a wide range of inputs, including boundary cases. This ensures that the code is tested across a broader input space without requiring manually written test cases for each scenario.
+
+- **Uncovers Edge Cases and Unexpected Bugs:**
+  By generating random inputs, PBT is more likely to identify corner cases or bugs that would otherwise be missed. It can reveal issues that arise only in extreme or edge conditions, such as very large inputs.
+
+- **Simplified Test Case Writing:**
+  In PBT, instead of writing individual test cases for each possible input, you define properties (e.g., "inorder traversal should be sorted") that the program must satisfy. This greatly reduces the overhead of manually writing tests for every case.
+
+- **Automation:**
+  PBT automatically generates test data, running tests on a large number of randomly generated inputs. This makes it particularly useful when there are many potential edge cases or when the input space is too large to cover manually.
+
+### Disadvantages:
+- **Difficult to Debug:**
+  When a PBT test fails, it can be difficult to track down the exact cause. The input data is randomly generated, so reproducing the failure might require multiple attempts. This can make debugging more challenging.
+
+- **Less Specific:**
+  PBT focuses on testing the properties of the program rather than verifying exact outputs. While this approach ensures that certain properties hold, it may not verify specific behavior or correctness under all conditions.
+
+- **Potential for Non-Representative Data:**
+  Since the data is generated randomly, there is a chance that the generated data may not be representative of real-world use cases. If the generation strategy is not properly tuned, it might create impractical or irrelevant inputs.
+
+## Summary:
+
+### **When to Use Unit Testing:**
+- To test specific behaviors of the system.
+- For cases where exact outputs need to be verified.
+- When you want to test a system in a controlled, predictable manner.
+- Ideal for debugging and pinpointing issues.
+
+### **When to Use Property-Based Testing (PBT):**
+- To test the general properties of the program.
+- For automatically generating a large number of test cases across a broad input space.
+- To uncover edge cases and bugs that are hard to identify manually.
+- Suitable for large and complex input spaces.
+
+## **Recommended Approach:**
+- **Combining Both Approaches:** The ideal approach is to use both unit testing and property-based testing together. Unit tests ensure that the system works as expected for known use cases, while PBT can help discover edge cases and validate broader properties of the system. This combination maximizes the reliability and robustness of your code.
+
