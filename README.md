@@ -19,11 +19,21 @@ All subtrees satisfy the above rule (recursively defined)
 
 ## Advantages and disadvantages
 
-| Advantages | Disadvantages |
-|----|----|
-| Fast lookup <br>(O(log n) avg)| Worst-case degrades to O(n) <br>(unbalanced tree) |
-| Dynamic insert/delete support| Requires balancing mechanisms|
-| In-order traversal gives order | High overhead for frequent modifications |
+### Advantages
+
+- Quick search (like binary search) O(log n)
+
+- Supports dynamic data insertion and deletion
+
+- Natural support for ordered traversal (mid-order traversal)
+
+### disAdvantages
+
+- Worst case degenerates to linked list (efficiency plummets) O(n)
+
+- Need to maintain balance (otherwise efficiency is unstable)
+
+- This scenario is not suitable for frequent insertion and deletion
 
 ## Project structure
 
@@ -41,6 +51,8 @@ or deletion.These balanced trees ensure that the operations remain O(log n)
 even in the worst case. Also, a easy way to rebalance the tree is insert
 nodes in a more randomized fashion, like using a Treap (a BST combined
 with a heap).
+
+e.g. Ordinary BST may degenerate to a linked list under extreme insertion order (e.g., insert 1, 2, 3, 4, 5)
 
 - Iterative methods --
 
