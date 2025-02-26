@@ -18,8 +18,6 @@ class BinarySearchTree:
             self._insert(self.root, key)
 
     def _insert(self, root, key):
-        if key == root.val:
-            return
         if key < root.val:
             if root.left is None:
                 root.left = TreeNode(key)
