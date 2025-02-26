@@ -6,6 +6,24 @@ being greater than all the keys in the respective node's left subtree and
 less than the ones in its right subtree. The time complexity of operations
 on the binary search tree is linear with respect to the height of the tree.
 
+Definition and property
+Structure: Each node has a maximum of two children (left child and right child).
+
+Order:
+
+The value of all nodes in the left subtree < the value of the current node.
+
+The value of all nodes in the right subtree > the value of the current node.
+
+All subtrees satisfy the above rule (recursively defined)
+
+### Advantages and disadvantages
+| Advantages| disadvantages|
+|----|----|
+|Fast lookup (similar to binary lookup)|Worst case degenerates to linked list (efficiency plummets)|
+|Support dynamic data insertion and deletion |need to maintain balance (otherwise the efficiency is unstable)|
+|Natural support for ordered traversal (mid-order traversal) |is not suitable for frequently inserted and deleted scenarios|
+
 ## Project structure
 
 - `foo.py` -- implementation of `Foo` class and `add` features.
