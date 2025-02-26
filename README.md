@@ -19,11 +19,11 @@ All subtrees satisfy the above rule (recursively defined)
 
 ## Advantages and disadvantages
 
-| Advantages                      | Disadvantages                                  |
-|---------------------------------|------------------------------------------------|
-| Fast lookup (O(log n) avg)      | Worst-case degrades to O(n) (unbalanced tree)  |
-| Dynamic insert/delete support   | Requires balancing mechanisms                  |
-| In-order traversal gives order  | High overhead for frequent modifications       |
+| Advantages | Disadvantages |
+|----|----|
+| Fast lookup <br>(O(log n) avg)| Worst-case degrades to O(n) <br>(unbalanced tree) |
+| Dynamic insert/delete support| Requires balancing mechanisms|
+| In-order traversal gives order | High overhead for frequent modifications |
 
 ## Project structure
 
