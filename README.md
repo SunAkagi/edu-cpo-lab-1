@@ -52,7 +52,8 @@ even in the worst case. Also, a easy way to rebalance the tree is insert
 nodes in a more randomized fashion, like using a Treap (a BST combined
 with a heap).
 
-e.g. Ordinary BST may degenerate to a linked list under extreme insertion order (e.g., insert 1, 2, 3, 4, 5)
+e.g. Ordinary BST may degenerate to a linked list under extreme insertion 
+order (e.g., insert 1, 2, 3, 4, 5)
 
 - Iterative methods --
 
