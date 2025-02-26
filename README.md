@@ -17,12 +17,13 @@ The value of all nodes in the right subtree > the value of the current node.
 
 All subtrees satisfy the above rule (recursively defined)
 
-### Advantages and disadvantages
-| Advantages| disadvantages|
-|----|----|
-|Fast lookup (similar to binary lookup)|Worst case degenerates to linked list (efficiency plummets)|
-|Support dynamic data insertion and deletion |need to maintain balance (otherwise the efficiency is unstable)|
-|Natural support for ordered traversal (mid-order traversal) |is not suitable for frequently inserted and deleted scenarios|
+## Advantages and disadvantages
+
+| Advantages                      | Disadvantages                                  |
+|---------------------------------|------------------------------------------------|
+| Fast lookup (O(log n) avg)      | Worst-case degrades to O(n) (unbalanced tree)  |
+| Dynamic insert/delete support   | Requires balancing mechanisms                  |
+| In-order traversal gives order  | High overhead for frequent modifications       |
 
 ## Project structure
 
