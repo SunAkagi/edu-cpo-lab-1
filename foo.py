@@ -3,11 +3,13 @@ from typing import Callable, TypeVar, Generic, Optional
 T = TypeVar('T')
 R = TypeVar('R')
 
+
 class TreeNode(Generic[T]):
     def __init__(self, key: T):
         self.left: Optional['TreeNode[T]'] = None
         self.right: Optional['TreeNode[T]'] = None
         self.val: T = key
+
 
 class BinarySearchTree:
     def __init__(self):
@@ -139,10 +141,10 @@ class BinarySearchTree:
                 new_tree.insert(value)
         return new_tree
 
-    def reduce(self, func: Callable[[T, T], T], initializer: 
+    def reduce(self, func: Callable[[T, T], T], initializer:
                Optional[T] = None) -> T:
         values = self.inorder_traversal()
         if not values:
-            return initializer if initializer is not None else 0  
+            return initializer if initializer is not None else 0
         from functools import reduce
         return reduce(func, values, initializer)
