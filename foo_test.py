@@ -80,8 +80,9 @@ class TestBSTProperties(unittest.TestCase):
 
         tree_sum = bst.reduce(lambda x, y: x + y, 0)
 
-        self.assertEqual(tree_sum, sum(values))  
-        self.assertEqual(bst.reduce(lambda x, y: x + y, 0), bst.reduce(lambda x, y: y + x, 0))
+        self.assertEqual(tree_sum, sum(values))
+        self.assertEqual(bst.reduce(lambda x, y: x + y, 0), 
+                         bst.reduce(lambda x, y: y + x, 0))
 
     @given(st.lists(st.integers(min_value=1, max_value=100), unique=True))
     def test_monoid_multiplication(self, values):
