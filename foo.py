@@ -1,13 +1,18 @@
-class TreeNode:
-    def __init__(self, key):
-        self.left = None
-        self.right = None
-        self.val = key
+from typing import Callable, TypeVar, Generic, Optional
+
+T = TypeVar('T')
+R = TypeVar('R')
+
+class TreeNode(Generic[T]):
+    def __init__(self, key: T):
+        self.left: Optional['TreeNode[T]'] = None
+        self.right: Optional['TreeNode[T]'] = None
+        self.val: T = key
 
 
 class BinarySearchTree:
     def __init__(self):
-        self.root = None
+        self.root: Optional[TreeNode[T]] = None
 
     def insert(self, key):
         if self.search(key):
@@ -121,3 +126,23 @@ class BinarySearchTree:
             self._postorder(root.left, result)
             self._postorder(root.right, result)
             result.append(root.val)
+    
+    def map(self, func: Callable[[T], R]) -> 'BinarySearchTree[R]':
+        new_tree = BinarySearchTree[R]()
+        for value in self.inorder_traversal():
+            new_tree.insert(func(value))
+        return new_tree
+    
+        def filter(self, predicate: Callable[[T], bool]) -> 'BinarySearchTree[T]':
+        new_tree = BinarySearchTree[T]()
+        for value in self.inorder_traversal():
+            if predicate(value):
+                new_tree.insert(value)
+        return new_tree
+
+    def reduce(self, func: Callable[[T, T], T], initializer: Optional[T] = None) -> T:
+        values = self.inorder_traversal()
+        if initializer is None:
+            return values[0] if values else None  
+        from functools import reduce
+        return reduce(func, values, initializer)
