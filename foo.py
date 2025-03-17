@@ -11,7 +11,7 @@ class TreeNode(Generic[T]):
         self.val: T = key
 
 
-class BinarySearchTree:
+class BinarySearchTree(Generic[T]):
     def __init__(self):
         self.root: Optional[TreeNode[T]] = None
 
@@ -129,7 +129,7 @@ class BinarySearchTree:
             result.append(root.val)
 
     def map(self, func: Callable[[T], R]) -> 'BinarySearchTree[R]':
-        new_tree = BinarySearchTree[R]()
+        new_tree: BinarySearchTree[R] = BinarySearchTree()
         for value in self.inorder_traversal():
             new_tree.insert(func(value))
         return new_tree
@@ -141,10 +141,9 @@ class BinarySearchTree:
                 new_tree.insert(value)
         return new_tree
 
-    def reduce(self, func: Callable[[T, T], T], initializer:
-               Optional[T] = None) -> T:
-        values = self.inorder_traversal()
-        if not values:
-            return initializer if initializer is not None else 0
-        from functools import reduce
-        return reduce(func, values, initializer)
+    def reduce(self, func: Callable[[T, T], T], initializer: Optional[T] = None) -> Optional[T]:
+    values = self.inorder_traversal()
+    if not values:
+        return initializer
+    from functools import reduce
+    return reduce(func, values, initializer)
