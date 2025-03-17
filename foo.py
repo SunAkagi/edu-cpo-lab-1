@@ -133,7 +133,7 @@ class BinarySearchTree:
             new_tree.insert(func(value))
         return new_tree
     
-        def filter(self, predicate: Callable[[T], bool]) -> 'BinarySearchTree[T]':
+    def filter(self, predicate: Callable[[T], bool]) -> 'BinarySearchTree[T]':
         new_tree = BinarySearchTree[T]()
         for value in self.inorder_traversal():
             if predicate(value):
