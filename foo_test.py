@@ -72,7 +72,7 @@ class TestBSTProperties(unittest.TestCase):
             with self.assertRaises(ValueError):
                 bst.delete(key)
 
-        @given(st.lists(st.integers(), unique=True))
+    @given(st.lists(st.integers(), unique=True))
     def test_monoid_addition(self, values):
         bst = BinarySearchTree[int]()
         for v in values:
