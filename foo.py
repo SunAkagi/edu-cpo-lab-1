@@ -1,4 +1,4 @@
-from typing import Callable, TypeVar, Generic, Optional
+from typing import Callable, TypeVar, Generic, Optional, Union
 from functools import reduce
 
 T = TypeVar('T')
@@ -143,7 +143,7 @@ class BinarySearchTree(Generic[T]):
                 new_tree.insert(value)
         return new_tree
 
-    def reduce(self, func: Callable[[S, T], S],
+    def reduce(self, func: Callable[[Union[S, None], T], S],
                initializer: Optional[S] = None) -> Optional[S]:
         values = self.inorder_traversal()
         if not values:
