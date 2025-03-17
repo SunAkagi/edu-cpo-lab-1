@@ -142,7 +142,7 @@ class BinarySearchTree:
 
     def reduce(self, func: Callable[[T, T], T], initializer: Optional[T] = None) -> T:
         values = self.inorder_traversal()
-        if initializer is None:
-            return values[0] if values else None  
+        if not values:
+            return initializer if initializer is not None else 0  # 这里确保空树不会报错
         from functools import reduce
         return reduce(func, values, initializer)
