@@ -9,7 +9,6 @@ class TreeNode(Generic[T]):
         self.right: Optional['TreeNode[T]'] = None
         self.val: T = key
 
-
 class BinarySearchTree:
     def __init__(self):
         self.root: Optional[TreeNode[T]] = None
@@ -126,13 +125,13 @@ class BinarySearchTree:
             self._postorder(root.left, result)
             self._postorder(root.right, result)
             result.append(root.val)
-    
+
     def map(self, func: Callable[[T], R]) -> 'BinarySearchTree[R]':
         new_tree = BinarySearchTree[R]()
         for value in self.inorder_traversal():
             new_tree.insert(func(value))
         return new_tree
-    
+
     def filter(self, predicate: Callable[[T], bool]) -> 'BinarySearchTree[T]':
         new_tree = BinarySearchTree[T]()
         for value in self.inorder_traversal():
@@ -140,9 +139,10 @@ class BinarySearchTree:
                 new_tree.insert(value)
         return new_tree
 
-    def reduce(self, func: Callable[[T, T], T], initializer: Optional[T] = None) -> T:
+    def reduce(self, func: Callable[[T, T], T], initializer: 
+               Optional[T] = None) -> T:
         values = self.inorder_traversal()
         if not values:
-            return initializer if initializer is not None else 0  # 这里确保空树不会报错
+            return initializer if initializer is not None else 0  
         from functools import reduce
         return reduce(func, values, initializer)
