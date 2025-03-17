@@ -74,7 +74,7 @@ class TestBSTProperties(unittest.TestCase):
 
     @given(st.lists(st.integers(), unique=True))
     def test_monoid_addition(self, values):
-        bst = BinarySearchTree[int]()
+        bst = BinarySearchTree()
         for v in values:
             bst.insert(v)
 
@@ -85,7 +85,7 @@ class TestBSTProperties(unittest.TestCase):
 
     @given(st.lists(st.integers(min_value=1, max_value=100), unique=True))
     def test_monoid_multiplication(self, values):
-        bst = BinarySearchTree[int]()
+        bst = BinarySearchTree()
         for v in values:
             bst.insert(v)
 
