@@ -71,3 +71,28 @@ class TestBSTProperties(unittest.TestCase):
         else:
             with self.assertRaises(ValueError):
                 bst.delete(key)
+
+        @given(st.lists(st.integers(), unique=True))
+    def test_monoid_addition(self, values):
+        bst = BinarySearchTree[int]()
+        for v in values:
+            bst.insert(v)
+
+        tree_sum = bst.reduce(lambda x, y: x + y, 0)
+
+        self.assertEqual(tree_sum, sum(values))  
+        self.assertEqual(bst.reduce(lambda x, y: x + y, 0), bst.reduce(lambda x, y: y + x, 0))
+
+    @given(st.lists(st.integers(min_value=1, max_value=100), unique=True))
+    def test_monoid_multiplication(self, values):
+        bst = BinarySearchTree[int]()
+        for v in values:
+            bst.insert(v)
+
+        tree_product = bst.reduce(lambda x, y: x * y, 1)
+
+        product = 1
+        for v in values:
+            product *= v
+
+        self.assertEqual(tree_product, product)
