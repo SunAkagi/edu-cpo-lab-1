@@ -1,4 +1,4 @@
-from typing import Callable, TypeVar, Generic, Optional, Union
+from typing import Callable, TypeVar, Generic, Optional
 from functools import reduce as functools_reduce
 
 T = TypeVar('T')
