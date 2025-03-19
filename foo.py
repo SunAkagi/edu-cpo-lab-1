@@ -1,5 +1,5 @@
 from typing import Callable, TypeVar, Generic, Optional, Union
-from functools import reduce functools_reduce
+from functools import reduce as functools_reduce
 
 T = TypeVar('T')
 R = TypeVar('R')
