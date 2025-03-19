@@ -145,12 +145,12 @@ class BinarySearchTree(Generic[T]):
 
     def reduce(self, func: Callable[[S, T], S],
                initializer: Optional[S] = None) -> Optional[S]:
-    values = self.inorder_traversal()
+        values = self.inorder_traversal()
     
-    if not values:
-        return initializer
+        if not values:
+            return initializer
 
-    if initializer is None:
-        return functools_reduce(func, values)
-    else:
-        return functools_reduce(func, values, initializer)
+        if initializer is None:
+            return functools_reduce(func, values)
+        else:
+            return functools_reduce(func, values, initializer)
