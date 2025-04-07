@@ -70,9 +70,11 @@ class KVBinarySearchTree(Generic[KT, VT]):
         items = self.inorder()
         if not items:
             return initializer
-        return functools_reduce(func, items, initializer)
+        return (
+                   functools_reduce(func, items, initializer)
                    if initializer is not None
                    else functools_reduce(func, items)
+        )
 
     def map(self, func: Callable[[Tuple[KT, VT]], Tuple[KT, VT]]) -> None:
         items = self.inorder()
