@@ -1,4 +1,5 @@
-from typing import Optional, Callable, TypeVar, Generic, Tuple, List
+from typing import Optional, Callable, Generic, Tuple, List
+from typing import Protocol, TypeVar
 from functools import reduce as functools_reduce
 
 class Comparable(Protocol):
