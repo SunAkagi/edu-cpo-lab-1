@@ -78,8 +78,11 @@ class KVBinarySearchTree(Generic[KT, VT]):
 
     def map(self, func: Callable[[Tuple[KT, VT]], Tuple[KT, VT]]) -> None:
         items = self.inorder()
+        mapped_items = list(map(func, items))
+        if len(mapped_items) != len(items):
+            raise ValueError("map operation must preserve the number of elements")
         self.root = None
-        for k, v in map(func, items):
+        for k, v in mapped_items:
             self.insert(k, v)
 
     def filter(self, predicate: Callable[[Tuple[KT, VT]], bool]) -> None:
@@ -90,7 +93,9 @@ class KVBinarySearchTree(Generic[KT, VT]):
 
     def concat(self, other: 'KVBinarySearchTree[KT, VT]'
               ) -> 'KVBinarySearchTree[KT, VT]':
-        result = KVBinarySearchTree(self.root)
+        result = KVBinarySearchTree.empty()
+        for k, v in self.inorder():
+            result.insert(k, v)
         for k, v in other.inorder():
             result.insert(k, v)
         return result
