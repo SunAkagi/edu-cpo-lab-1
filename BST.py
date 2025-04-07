@@ -92,7 +92,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
         )
 
     def map(
-        self, 
+        self,
         func: Callable[[Tuple[KT, VT]], Tuple[KT, VT]]
     ) -> None:
         items = self.inorder()
