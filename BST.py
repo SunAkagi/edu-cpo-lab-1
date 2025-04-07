@@ -3,13 +3,11 @@ from typing import Protocol, runtime_checkable
 from functools import reduce as functools_reduce
 
 
-@runtime_checkable
-class Comparable(Protocol):
-    def __lt__(self, other: object) -> bool: ...
-    def __gt__(self, other: object) -> bool: ...
+class SupportsLessThan(Protocol):
+    def __lt__(self, other: Any) -> bool: ...
 
 
-KT = TypeVar("KT", bound=Comparable)
+KT = TypeVar("KT", bound=SupportsLessThan)
 VT = TypeVar("VT")
 S = TypeVar("S")
 
@@ -92,11 +90,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
         items = self.inorder()
         if not items:
             return initializer
-        return (
-            functools_reduce(func, items, initializer)
-            if initializer is not None
-            else functools_reduce(func, items)
-        )
+        return functools_reduce(func, items, initializer)
 
     def map(
         self,
