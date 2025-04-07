@@ -49,7 +49,10 @@ class KVBinarySearchTree(Generic[KT, VT]):
     def search(self, key: KT) -> Optional[VT]:
         return self._search(self.root, key)
 
-    def _search(self, node: Optional[KVTreeNode[KT, VT]], key: KT
+    def _search(
+        self,
+        node: Optional[KVTreeNode[KT, VT]],
+        key: KT
     ) -> Optional[VT]:
         if node is None:
             return None
@@ -61,7 +64,8 @@ class KVBinarySearchTree(Generic[KT, VT]):
             return node.value
 
     def inorder(self) -> List[Tuple[KT, VT]]:
-        def traverse(node: Optional[KVTreeNode[KT, VT]]
+        def traverse(
+            node: Optional[KVTreeNode[KT, VT]]
         ) -> List[Tuple[KT, VT]]:
             if node is None:
                 return []
@@ -95,7 +99,9 @@ class KVBinarySearchTree(Generic[KT, VT]):
         for k, v in items:
             self.insert(k, v)
 
-    def concat(self, other: 'KVBinarySearchTree[KT, VT]'
+    def concat(
+        self,
+        other: 'KVBinarySearchTree[KT, VT]'
     ) -> 'KVBinarySearchTree[KT, VT]':
         result = KVBinarySearchTree(self.root)
         for k, v in other.inorder():
@@ -105,7 +111,10 @@ class KVBinarySearchTree(Generic[KT, VT]):
     def delete(self, key: KT) -> None:
         self.root = self._delete(self.root, key)
 
-    def _delete(self, node: Optional[KVTreeNode[KT, VT]], key: KT
+    def _delete(
+        self,
+        node: Optional[KVTreeNode[KT, VT]],
+        key: KT
     ) -> Optional[KVTreeNode[KT, VT]]:
         if node is None:
             return node
