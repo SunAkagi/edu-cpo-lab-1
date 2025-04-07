@@ -77,8 +77,11 @@ class KVBinarySearchTree(Generic[KT, VT]):
             )
         return traverse(self.root)
 
-    def reduce(self, func: Callable[[Tuple[KT, VT], Tuple[KT, VT]], Tuple[KT, VT]],
-               initializer: Optional[S] = None) -> Optional[S]:
+    def reduce(
+        self,
+        func: Callable[[Tuple[KT, VT], Tuple[KT, VT]], Tuple[KT, VT]],
+        initializer: Optional[S] = None
+    ) -> Optional[S]:
         items = self.inorder()
         if not items:
             return initializer
