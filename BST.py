@@ -86,7 +86,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
 
     def reduce(
         self,
-        func: Callable[S, Tuple[KT, VT]], S],
+        func: Callable[[S, Tuple[KT, VT]], S],
         initializer: Optional[S] = None
     ) -> Optional[S]:
         items = self.inorder()
