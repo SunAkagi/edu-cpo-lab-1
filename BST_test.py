@@ -15,7 +15,7 @@ def build_tree_from_list(
 
 class TestKVBinarySearchTree(unittest.TestCase):
     def test_insert_and_search(self):
-        tree = KVBinarySearchTree.empty()
+        tree: KVBinarySearchTree[int, str] = KVBinarySearchTree.empty()
         tree.insert(10, "a")
         tree.insert(5, "b")
         tree.insert(15, "c")
@@ -25,14 +25,16 @@ class TestKVBinarySearchTree(unittest.TestCase):
         self.assertIsNone(tree.search(100))
 
     def test_delete_leaf_and_root(self):
-        tree = build_tree_from_list([(10, "a"), (5, "b"), (15, "c")])
+        tree: KVBinarySearchTree[int, str]
+      = build_tree_from_list([(10, "a"), (5, "b"), (15, "c")])
         tree.delete(5)
         self.assertIsNone(tree.search(5))
         tree.delete(10)
         self.assertIsNone(tree.search(10))
 
     def test_map_and_filter(self):
-        tree = build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
+        tree: KVBinarySearchTree[int, str]
+      = build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
         tree.map(lambda kv: (kv[0] * 10, kv[1].upper()))
         inorder = tree.inorder()
         self.assertEqual(sorted(inorder), [(10, "A"), (20, "B"), (30, "C")])
@@ -41,12 +43,13 @@ class TestKVBinarySearchTree(unittest.TestCase):
         self.assertEqual(inorder, [(10, "A"), (30, "C")])
 
     def test_reduce(self):
-        tree = build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
+        tree: KVBinarySearchTree[int, str]
+      = build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
         result = tree.reduce(lambda acc, kv: acc + kv[1], "")
         self.assertEqual(set(result), {"a", "b", "c"})
 
     def test_empty_behavior(self):
-        empty = KVBinarySearchTree.empty()
+        empty: KVBinarySearchTree[int, str] = KVBinarySearchTree.empty()
         self.assertTrue(empty.is_empty())
         self.assertEqual(empty.inorder(), [])
         self.assertIsNone(empty.search(1))
@@ -55,13 +58,13 @@ class TestKVBinarySearchTree(unittest.TestCase):
         self.assertEqual(empty.inorder(), [])
 
     def test_duplicate_key_overwrites_value(self):
-        tree = KVBinarySearchTree.empty()
+        tree: KVBinarySearchTree[int, str] = KVBinarySearchTree.empty()
         tree.insert(10, "a")
         tree.insert(10, "b")
         self.assertEqual(tree.search(10), "b")
 
     def test_tree_depth(self):
-        tree = build_tree_from_list(
+        tree: KVBinarySearchTree[int, str] = build_tree_from_list(
             [(10, "a"), (5, "b"), (15, "c"), (12, "d")]
         )
 
@@ -74,7 +77,7 @@ class TestKVBinarySearchTree(unittest.TestCase):
 
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_monoid_left_identity(items):
-    tree = build_tree_from_list(items)
+    tree: KVBinarySearchTree[int, str] = build_tree_from_list(items)
     identity = KVBinarySearchTree.empty()
     result = identity.concat(tree)
     assert result.inorder() == tree.inorder()
@@ -82,7 +85,7 @@ def test_monoid_left_identity(items):
 
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_monoid_right_identity(items):
-    tree = build_tree_from_list(items)
+    tree: KVBinarySearchTree[int, str] = build_tree_from_list(items)
     identity = KVBinarySearchTree.empty()
     result = tree.concat(identity)
     assert result.inorder() == tree.inorder()
@@ -104,7 +107,7 @@ def test_monoid_associativity(xs, ys, zs):
 
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_insert_then_search(items):
-    tree = build_tree_from_list(items)
+    tree: KVBinarySearchTree[int, str] = build_tree_from_list(items)
 
     expected = {}
     for k, v in items:
@@ -116,7 +119,7 @@ def test_insert_then_search(items):
 
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_filter_keeps_only_matching(items):
-    tree = build_tree_from_list(items)
+    tree: KVBinarySearchTree[int, str] = build_tree_from_list(items)
     tree.filter(lambda kv: kv[0] % 2 == 0)
     for k, _ in tree.inorder():
         assert k % 2 == 0
@@ -124,7 +127,7 @@ def test_filter_keeps_only_matching(items):
 
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_map_preserves_size(items):
-    tree = build_tree_from_list(items)
+    tree: KVBinarySearchTree[int, str] = build_tree_from_list(items)
     original_size = len(tree.inorder())
     tree.map(lambda kv: (kv[0] * 10, kv[1].upper()))
     assert len(tree.inorder()) == original_size
