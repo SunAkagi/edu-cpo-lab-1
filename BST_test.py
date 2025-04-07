@@ -4,11 +4,13 @@ from hypothesis import given, strategies as st
 from typing import List, Tuple
 
 
-def build_tree_from_list(pairs: List[Tuple[int, str]]) -> KVBinarySearchTree[int, str]:
+def build_tree_from_list(pairs: List[Tuple[int, str]]
+) -> KVBinarySearchTree[int, str]:
     tree = KVBinarySearchTree.empty()
     for k, v in pairs:
         tree.insert(k, v)
     return tree
+
 
 class TestKVBinarySearchTree(unittest.TestCase):
     def test_insert_and_search(self):
@@ -58,12 +60,16 @@ class TestKVBinarySearchTree(unittest.TestCase):
         self.assertEqual(tree.search(10), "b")
 
     def test_tree_depth(self):
-        tree = build_tree_from_list([(10, "a"), (5, "b"), (15, "c"), (12, "d")])
+        tree = build_tree_from_list(
+            [(10, "a"), (5, "b"), (15, "c"), (12, "d")]
+        )
+
         def max_depth(node):
             if node is None:
                 return 0
             return 1 + max(max_depth(node.left), max_depth(node.right))
         self.assertLessEqual(max_depth(tree.root), 3)
+
 
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_monoid_left_identity(items):
@@ -72,12 +78,14 @@ def test_monoid_left_identity(items):
     result = identity.concat(tree)
     assert result.inorder() == tree.inorder()
 
+
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_monoid_right_identity(items):
     tree = build_tree_from_list(items)
     identity = KVBinarySearchTree.empty()
     result = tree.concat(identity)
     assert result.inorder() == tree.inorder()
+
 
 @given(
     st.lists(st.tuples(st.integers(), st.text())),
@@ -92,6 +100,7 @@ def test_monoid_associativity(xs, ys, zs):
     right = t1.concat(t2.concat(t3))
     assert sorted(left.inorder()) == sorted(right.inorder())
 
+
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_insert_then_search(items):
     tree = build_tree_from_list(items)
@@ -103,12 +112,14 @@ def test_insert_then_search(items):
     for k, v in expected.items():
         assert tree.search(k) == v
 
+
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_filter_keeps_only_matching(items):
     tree = build_tree_from_list(items)
     tree.filter(lambda kv: kv[0] % 2 == 0)
     for k, _ in tree.inorder():
         assert k % 2 == 0
+
 
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_map_preserves_size(items):
