@@ -1,5 +1,5 @@
 from typing import Optional, Callable, TypeVar, Generic, Tuple, List
-from typing import Protocol, runtime_checkable
+from typing import Protocol, Any
 from functools import reduce as functools_reduce
 
 
