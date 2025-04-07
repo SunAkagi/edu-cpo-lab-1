@@ -25,16 +25,18 @@ class TestKVBinarySearchTree(unittest.TestCase):
         self.assertIsNone(tree.search(100))
 
     def test_delete_leaf_and_root(self):
-        tree: KVBinarySearchTree[int, str]
-      = build_tree_from_list([(10, "a"), (5, "b"), (15, "c")])
+        tree: KVBinarySearchTree[int, str] = (
+          build_tree_from_list([(10, "a"), (5, "b"), (15, "c")])
+        )
         tree.delete(5)
         self.assertIsNone(tree.search(5))
         tree.delete(10)
         self.assertIsNone(tree.search(10))
 
     def test_map_and_filter(self):
-        tree: KVBinarySearchTree[int, str]
-      = build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
+        tree: KVBinarySearchTree[int, str] = (
+          build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
+        )
         tree.map(lambda kv: (kv[0] * 10, kv[1].upper()))
         inorder = tree.inorder()
         self.assertEqual(sorted(inorder), [(10, "A"), (20, "B"), (30, "C")])
@@ -43,8 +45,9 @@ class TestKVBinarySearchTree(unittest.TestCase):
         self.assertEqual(inorder, [(10, "A"), (30, "C")])
 
     def test_reduce(self):
-        tree: KVBinarySearchTree[int, str]
-      = build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
+        tree: KVBinarySearchTree[int, str] = (
+          build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
+        )
         result = tree.reduce(lambda acc, kv: acc + kv[1], "")
         self.assertEqual(set(result), {"a", "b", "c"})
 
