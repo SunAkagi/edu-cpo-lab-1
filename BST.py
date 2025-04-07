@@ -1,8 +1,17 @@
 from typing import Optional, Callable, TypeVar, Generic, Tuple, List
+from typing import Protocol
 from functools import reduce as functools_reduce
 
 
-KT = TypeVar("KT")
+class Comparable(Protocol):
+    def __lt__(self, other: object) -> bool:
+        ...
+
+    def __gt__(self, other: object) -> bool:
+        ...
+
+
+KT = TypeVar("KT", bound=Comparable)
 VT = TypeVar("VT")
 S = TypeVar("S")
 
