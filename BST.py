@@ -1,156 +1,113 @@
-from typing import Callable, TypeVar, Generic, Optional
+from typing import Optional, Callable, TypeVar, Generic, Tuple, List
 from functools import reduce as functools_reduce
 
-T = TypeVar('T')
-R = TypeVar('R')
+KT = TypeVar("KT")
+VT = TypeVar("VT")
 S = TypeVar("S")
 
 
-class TreeNode(Generic[T]):
-    def __init__(self, key: T):
-        self.left: Optional['TreeNode[T]'] = None
-        self.right: Optional['TreeNode[T]'] = None
-        self.val: T = key
+class KVTreeNode(Generic[KT, VT]):
+    def __init__(self, key: KT, value: VT,
+                 left: Optional['KVTreeNode[KT, VT]'] = None,
+                 right: Optional['KVTreeNode[KT, VT]'] = None):
+        self.key = key
+        self.value = value
+        self.left = left
+        self.right = right
 
+class KVBinarySearchTree(Generic[KT, VT]):
+    def __init__(self, root: Optional[KVTreeNode[KT, VT]] = None):
+        self.root = root
 
-class BinarySearchTree(Generic[T]):
-    def __init__(self):
-        self.root: Optional[TreeNode[T]] = None
+    @staticmethod
+    def empty() -> 'KVBinarySearchTree[KT, VT]':
+        return KVBinarySearchTree()
 
-    def insert(self, key):
-        if self.search(key):
-            return
-        if self.root is None:
-            self.root = TreeNode(key)
+    def is_empty(self) -> bool:
+        return self.root is None
+
+    def insert(self, key: KT, value: VT) -> None:
+        self.root = self._insert(self.root, key, value)
+
+    def _insert(self, node: Optional[KVTreeNode[KT, VT]], key: KT, value: VT) -> KVTreeNode[KT, VT]:
+        if node is None:
+            return KVTreeNode(key, value)
+        if key < node.key:
+            node.left = self._insert(node.left, key, value)
+        elif key > node.key:
+            node.right = self._insert(node.right, key, value)
         else:
-            self._insert(self.root, key)
+            node.value = value
+        return node
 
-    def _insert(self, root, key):
-        if key < root.val:
-            if root.left is None:
-                root.left = TreeNode(key)
-            else:
-                self._insert(root.left, key)
-        elif key > root.val:
-            if root.right is None:
-                root.right = TreeNode(key)
-            else:
-                self._insert(root.right, key)
-
-    def search(self, key):
+    def search(self, key: KT) -> Optional[VT]:
         return self._search(self.root, key)
 
-    def _search(self, root, key):
-        if root is None or root.val == key:
-            return root
-        if key < root.val:
-            return self._search(root.left, key)
-        return self._search(root.right, key)
+    def _search(self, node: Optional[KVTreeNode[KT, VT]], key: KT) -> Optional[VT]:
+        if node is None:
+            return None
+        if key < node.key:
+            return self._search(node.left, key)
+        elif key > node.key:
+            return self._search(node.right, key)
+        else:
+            return node.value
 
-    def delete(self, key):
-        if self.root is None:
-            raise ValueError(f"Tree is empty, cannot delete key {key}")
-        if not self.search(key):
-            raise ValueError(f"Key {key} not found in the tree.")
+    def inorder(self) -> List[Tuple[KT, VT]]:
+        def traverse(node: Optional[KVTreeNode[KT, VT]]) -> List[Tuple[KT, VT]]:
+            if node is None:
+                return []
+            return traverse(node.left) + [(node.key, node.value)] + traverse(node.right)
+        return traverse(self.root)
+
+    def reduce(self, func: Callable[[S, Tuple[KT, VT]], S], initializer: Optional[S] = None) -> Optional[S]:
+        items = self.inorder()
+        if not items:
+            return initializer
+        return functools_reduce(func, items, initializer) if initializer is not None else functools_reduce(func, items)
+
+    def map(self, func: Callable[[Tuple[KT, VT]], Tuple[KT, VT]]) -> None:
+        items = self.inorder()
+        self.root = None
+        for k, v in map(func, items):
+            self.insert(k, v)
+
+    def filter(self, predicate: Callable[[Tuple[KT, VT]], bool]) -> None:
+        items = [pair for pair in self.inorder() if predicate(pair)]
+        self.root = None
+        for k, v in items:
+            self.insert(k, v)
+
+    def concat(self, other: 'KVBinarySearchTree[KT, VT]') -> 'KVBinarySearchTree[KT, VT]':
+        result = KVBinarySearchTree(self.root)
+        for k, v in other.inorder():
+            result.insert(k, v)
+        return result
+
+    def delete(self, key: KT) -> None:
         self.root = self._delete(self.root, key)
 
-    def _delete(self, root, key):
-        if root is None:
-            return root
-
-        if key < root.val:
-            root.left = self._delete(root.left, key)
-        elif key > root.val:
-            root.right = self._delete(root.right, key)
+    def _delete(self, node: Optional[KVTreeNode[KT, VT]], key: KT) -> Optional[KVTreeNode[KT, VT]]:
+        if node is None:
+            return node
+        if key < node.key:
+            node.left = self._delete(node.left, key)
+        elif key > node.key:
+            node.right = self._delete(node.right, key)
         else:
-            # Node with only one child or no child
-            if root.left is None:
-                return root.right
-            elif root.right is None:
-                return root.left
+            if node.left is None and node.right is None:
+                return None
+            elif node.left is None:
+                return node.right
+            elif node.right is None:
+                return node.left
+            min_node = self._min_value_node(node.right)
+            node.key, node.value = min_node.key, min_node.value
+            node.right = self._delete(node.right, min_node.key)
+        return node
 
-            root.val = self._minValueNode(root.right).val
-            # Delete the inorder successor
-            root.right = self._delete(root.right, root.val)
-
-        return root
-
-    def _minValueNode(self, node):
+    def _min_value_node(self, node: KVTreeNode[KT, VT]) -> KVTreeNode[KT, VT]:
         current = node
         while current.left is not None:
             current = current.left
         return current
-
-    def minValue(self):
-        if self.root is None:
-            return None
-        current = self.root
-        while current.left is not None:
-            current = current.left
-        return current.val
-
-    def maxValue(self):
-        if self.root is None:
-            return None
-        current = self.root
-        while current.right is not None:
-            current = current.right
-        return current.val
-
-    def inorder_traversal(self):
-        result = []
-        self._inorder(self.root, result)
-        return result
-
-    def _inorder(self, root, result):
-        if root:
-            self._inorder(root.left, result)
-            result.append(root.val)
-            self._inorder(root.right, result)
-
-    def preorder_traversal(self):
-        result = []
-        self._preorder(self.root, result)
-        return result
-
-    def _preorder(self, root, result):
-        if root:
-            result.append(root.val)
-            self._preorder(root.left, result)
-            self._preorder(root.right, result)
-
-    def postorder_traversal(self):
-        result = []
-        self._postorder(self.root, result)
-        return result
-
-    def _postorder(self, root, result):
-        if root:
-            self._postorder(root.left, result)
-            self._postorder(root.right, result)
-            result.append(root.val)
-
-    def map(self, func: Callable[[T], R]) -> 'BinarySearchTree[R]':
-        new_tree: BinarySearchTree[R] = BinarySearchTree()
-        for value in self.inorder_traversal():
-            new_tree.insert(func(value))
-        return new_tree
-
-    def filter(self, predicate: Callable[[T], bool]) -> 'BinarySearchTree[T]':
-        new_tree = BinarySearchTree[T]()
-        for value in self.inorder_traversal():
-            if predicate(value):
-                new_tree.insert(value)
-        return new_tree
-
-    def reduce(self, func: Callable[[S, T], S],
-               initializer: Optional[S] = None) -> Optional[S]:
-        values = self.inorder_traversal()
-
-        if not values:
-            return initializer
-
-        if initializer is None:
-            return functools_reduce(func, values)
-        else:
-            return functools_reduce(func, values, initializer)
