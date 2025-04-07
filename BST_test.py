@@ -95,10 +95,12 @@ def test_monoid_associativity(xs, ys, zs):
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_insert_then_search(items):
     tree = build_tree_from_list(items)
+
     expected = {}
     for k, v in items:
         expected[k] = v
-    for k, v in items:
+
+    for k, v in expected.items():
         assert tree.search(k) == v
 
 @given(st.lists(st.tuples(st.integers(), st.text())))
