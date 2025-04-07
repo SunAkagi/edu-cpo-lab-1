@@ -1,5 +1,5 @@
 from typing import Optional, Callable, TypeVar, Generic, Tuple, List
-from typing import Protocol, Any
+from typing import Protocol, Any,cast
 from functools import reduce as functools_reduce
 
 
@@ -90,7 +90,10 @@ class KVBinarySearchTree(Generic[KT, VT]):
         items = self.inorder()
         if not items:
             return initializer
-        return functools_reduce(func, items, initializer)
+        if initializer is not None:
+            return functools_reduce(func, items, initializer)
+        else:
+            return cast(Optional[S], functools_reduce(func, items))
 
     def map(
         self,
