@@ -93,7 +93,8 @@ class KVBinarySearchTree(Generic[KT, VT]):
         if initializer is not None:
             return functools_reduce(func, items, initializer)
         else:
-            return cast(Optional[S], functools_reduce(func, items))
+            acc = cast(S, items[0])
+            return functools_reduce(func, items[1:], acc)
 
     def map(
         self,
