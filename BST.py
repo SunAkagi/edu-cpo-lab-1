@@ -15,7 +15,6 @@ class KVTreeNode(Generic[KT, VT]):
         self.left = left
         self.right = right
 
-
 class KVBinarySearchTree(Generic[KT, VT]):
     def __init__(self, root: Optional[KVTreeNode[KT, VT]] = None):
         self.root = root
@@ -30,8 +29,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
     def insert(self, key: KT, value: VT) -> None:
         self.root = self._insert(self.root, key, value)
 
-    def _insert(self, node: Optional[KVTreeNode[KT, VT]],
-                key: KT, value: VT) -> KVTreeNode[KT, VT]:
+    def _insert(self, node: Optional[KVTreeNode[KT, VT]], key: KT, value: VT) -> KVTreeNode[KT, VT]:
         if node is None:
             return KVTreeNode(key, value)
         if key < node.key:
@@ -45,8 +43,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
     def search(self, key: KT) -> Optional[VT]:
         return self._search(self.root, key)
 
-    def _search(self, node: Optional[KVTreeNode[KT, VT]],
-                key: KT) -> Optional[VT]:
+    def _search(self, node: Optional[KVTreeNode[KT, VT]], key: KT) -> Optional[VT]:
         if node is None:
             return None
         if key < node.key:
@@ -57,32 +54,22 @@ class KVBinarySearchTree(Generic[KT, VT]):
             return node.value
 
     def inorder(self) -> List[Tuple[KT, VT]]:
-        def traverse(node: Optional[KVTreeNode[KT, VT]]
-                    ) -> List[Tuple[KT, VT]]:
+        def traverse(node: Optional[KVTreeNode[KT, VT]]) -> List[Tuple[KT, VT]]:
             if node is None:
                 return []
-            return traverse(node.left) + [(node.key, node.value)]
-            + traverse(node.right)
+            return traverse(node.left) + [(node.key, node.value)] + traverse(node.right)
         return traverse(self.root)
 
-    def reduce(self, func: Callable[[S, Tuple[KT, VT]], S],
-               initializer: Optional[S] = None) -> Optional[S]:
+    def reduce(self, func: Callable[[S, Tuple[KT, VT]], S], initializer: Optional[S] = None) -> Optional[S]:
         items = self.inorder()
         if not items:
             return initializer
-        return (
-                   functools_reduce(func, items, initializer)
-                   if initializer is not None
-                   else functools_reduce(func, items)
-        )
+        return functools_reduce(func, items, initializer) if initializer is not None else functools_reduce(func, items)
 
     def map(self, func: Callable[[Tuple[KT, VT]], Tuple[KT, VT]]) -> None:
         items = self.inorder()
-        mapped_items = list(map(func, items))
-        if len(mapped_items) != len(items):
-            raise ValueError("map operation must preserve the number of elements")
         self.root = None
-        for k, v in mapped_items:
+        for k, v in map(func, items):
             self.insert(k, v)
 
     def filter(self, predicate: Callable[[Tuple[KT, VT]], bool]) -> None:
@@ -91,11 +78,8 @@ class KVBinarySearchTree(Generic[KT, VT]):
         for k, v in items:
             self.insert(k, v)
 
-    def concat(self, other: 'KVBinarySearchTree[KT, VT]'
-              ) -> 'KVBinarySearchTree[KT, VT]':
-        result = KVBinarySearchTree.empty()
-        for k, v in self.inorder():
-            result.insert(k, v)
+    def concat(self, other: 'KVBinarySearchTree[KT, VT]') -> 'KVBinarySearchTree[KT, VT]':
+        result = KVBinarySearchTree(self.root)
         for k, v in other.inorder():
             result.insert(k, v)
         return result
@@ -103,8 +87,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
     def delete(self, key: KT) -> None:
         self.root = self._delete(self.root, key)
 
-    def _delete(self, node: Optional[KVTreeNode[KT, VT]], key: KT
-               ) -> Optional[KVTreeNode[KT, VT]]:
+    def _delete(self, node: Optional[KVTreeNode[KT, VT]], key: KT) -> Optional[KVTreeNode[KT, VT]]:
         if node is None:
             return node
         if key < node.key:
