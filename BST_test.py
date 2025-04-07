@@ -1,99 +1,114 @@
 import unittest
-from hypothesis import given,  strategies as st
-from BST import BinarySearchTree
+from BST import KVBinarySearchTree
+from hypothesis import given, strategies as st
+from typing import List, Tuple
 
 
-class TestBinarySearchTree(unittest.TestCase):
-    def setUp(self):
-        self.bst = BinarySearchTree()
-        self.test_values = [50, 30, 70, 20, 40, 60, 80]
-        for value in self.test_values:
-            self.bst.insert(value)
+def build_tree_from_list(pairs: List[Tuple[int, str]]) -> KVBinarySearchTree[int, str]:
+    tree = KVBinarySearchTree.empty()
+    for k, v in pairs:
+        tree.insert(k, v)
+    return tree
 
-    def test_insert(self):
-        # Insert a new value and check if it's present
-        self.bst.insert(25)
-        self.assertTrue(self.bst.search(25))
+class TestKVBinarySearchTree(unittest.TestCase):
 
-    def test_search(self):
-        # Search for existing and non-existing values
-        self.assertTrue(self.bst.search(30))
-        self.assertFalse(self.bst.search(100))
+    def test_insert_and_search(self):
+        tree = KVBinarySearchTree.empty()
+        tree.insert(10, "a")
+        tree.insert(5, "b")
+        tree.insert(15, "c")
+        self.assertEqual(tree.search(10), "a")
+        self.assertEqual(tree.search(5), "b")
+        self.assertEqual(tree.search(15), "c")
+        self.assertIsNone(tree.search(100))
 
-    def test_delete(self):
-        # Delete existing values and verify they are gone
-        self.bst.delete(30)
-        self.assertFalse(self.bst.search(30))
+    def test_delete_leaf_and_root(self):
+        tree = build_tree_from_list([(10, "a"), (5, "b"), (15, "c")])
+        tree.delete(5)
+        self.assertIsNone(tree.search(5))
+        tree.delete(10)
+        self.assertIsNone(tree.search(10))
 
-        # Ensure other nodes remain intact
-        self.assertTrue(self.bst.search(20))
-        self.assertTrue(self.bst.search(40))
+    def test_map_and_filter(self):
+        tree = build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
+        tree.map(lambda kv: (kv[0] * 10, kv[1].upper()))
+        inorder = tree.inorder()
+        self.assertEqual(sorted(inorder), [(10, "A"), (20, "B"), (30, "C")])
+        tree.filter(lambda kv: kv[0] != 20)
+        inorder = tree.inorder()
+        self.assertEqual(inorder, [(10, "A"), (30, "C")])
 
-    def test_min_max_value(self):
-        # Check minimum and maximum values
-        self.assertEqual(self.bst.minValue(), 20)
-        self.assertEqual(self.bst.maxValue(), 80)
+    def test_reduce(self):
+        tree = build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
+        result = tree.reduce(lambda acc, kv: acc + kv[1], "")
+        self.assertEqual(set(result), {"a", "b", "c"})
 
-    def test_traversals(self):
-        # Check traversal methods
-        self.assertEqual(self.bst.inorder_traversal(),
-                         [20, 30, 40, 50, 60, 70, 80])
-        self.assertEqual(self.bst.preorder_traversal(),
-                         [50, 30, 20, 40, 70, 60, 80])
-        self.assertEqual(self.bst.postorder_traversal(),
-                         [20, 40, 30, 60, 80, 70, 50])
+    def test_empty_behavior(self):
+        empty = KVBinarySearchTree.empty()
+        self.assertTrue(empty.is_empty())
+        self.assertEqual(empty.inorder(), [])
+        self.assertIsNone(empty.search(1))
+        self.assertEqual(empty.reduce(lambda acc, kv: acc + [kv], []), [])
+        empty.map(lambda kv: (kv[0] * 2, kv[1]))
+        self.assertEqual(empty.inorder(), [])
 
+    def test_duplicate_key_overwrites_value(self):
+        tree = KVBinarySearchTree.empty()
+        tree.insert(10, "a")
+        tree.insert(10, "b")
+        self.assertEqual(tree.search(10), "b")
 
-class TestBSTProperties(unittest.TestCase):
-    @given(st.lists(st.integers(), unique=True))
-    def test_inorder_traversal_is_sorted(self, values):
-        bst = BinarySearchTree()
-        for value in values:
-            bst.insert(value)
-        self.assertEqual(sorted(values), bst.inorder_traversal())
+    def test_tree_depth(self):
+        tree = build_tree_from_list([(10, "a"), (5, "b"), (15, "c"), (12, "d")])
+        def max_depth(node):
+            if node is None:
+                return 0
+            return 1 + max(max_depth(node.left), max_depth(node.right))
+        self.assertLessEqual(max_depth(tree.root), 3)
 
-    @given(st.lists(st.integers(), unique=True), st.integers())
-    def test_search_after_insertion(self, values, key):
-        bst = BinarySearchTree()
-        for value in values:
-            bst.insert(value)
-        bst.insert(key)
-        self.assertTrue(bst.search(key))
+@given(st.lists(st.tuples(st.integers(), st.text())))
+def test_monoid_left_identity(items):
+    tree = build_tree_from_list(items)
+    identity = KVBinarySearchTree.empty()
+    result = identity.concat(tree)
+    assert result.inorder() == tree.inorder()
 
-    @given(st.lists(st.integers(), unique=True), st.integers())
-    def test_delete_and_search(self, values, key):
-        bst = BinarySearchTree()
-        for value in values:
-            bst.insert(value)
-        if key in values:
-            bst.delete(key)
-            self.assertFalse(bst.search(key))
-        else:
-            with self.assertRaises(ValueError):
-                bst.delete(key)
+@given(st.lists(st.tuples(st.integers(), st.text())))
+def test_monoid_right_identity(items):
+    tree = build_tree_from_list(items)
+    identity = KVBinarySearchTree.empty()
+    result = tree.concat(identity)
+    assert result.inorder() == tree.inorder()
 
-    @given(st.lists(st.integers(), unique=True))
-    def test_monoid_addition(self, values):
-        bst = BinarySearchTree()
-        for v in values:
-            bst.insert(v)
+@given(
+    st.lists(st.tuples(st.integers(), st.text())),
+    st.lists(st.tuples(st.integers(), st.text())),
+    st.lists(st.tuples(st.integers(), st.text()))
+)
+def test_monoid_associativity(xs, ys, zs):
+    t1 = build_tree_from_list(xs)
+    t2 = build_tree_from_list(ys)
+    t3 = build_tree_from_list(zs)
+    left = t1.concat(t2).concat(t3)
+    right = t1.concat(t2.concat(t3))
+    assert sorted(left.inorder()) == sorted(right.inorder())
 
-        tree_sum = bst.reduce(lambda x, y: x + y, 0)
+@given(st.lists(st.tuples(st.integers(), st.text())))
+def test_insert_then_search(items):
+    tree = build_tree_from_list(items)
+    for k, v in items:
+        assert tree.search(k) == v
 
-        self.assertEqual(tree_sum, sum(values))
-        self.assertEqual(bst.reduce(lambda x, y: x + y, 0),
-                         bst.reduce(lambda x, y: y + x, 0))
+@given(st.lists(st.tuples(st.integers(), st.text())))
+def test_filter_keeps_only_matching(items):
+    tree = build_tree_from_list(items)
+    tree.filter(lambda kv: kv[0] % 2 == 0)
+    for k, _ in tree.inorder():
+        assert k % 2 == 0
 
-    @given(st.lists(st.integers(min_value=1, max_value=100), unique=True))
-    def test_monoid_multiplication(self, values):
-        bst = BinarySearchTree()
-        for v in values:
-            bst.insert(v)
-
-        tree_product = bst.reduce(lambda x, y: x * y, 1)
-
-        product = 1
-        for v in values:
-            product *= v
-
-        self.assertEqual(tree_product, product)
+@given(st.lists(st.tuples(st.integers(), st.text())))
+def test_map_preserves_size(items):
+    tree = build_tree_from_list(items)
+    original_size = len(tree.inorder())
+    tree.map(lambda kv: (kv[0] * 10, kv[1].upper()))
+    assert len(tree.inorder()) == original_size
