@@ -1,14 +1,12 @@
 from typing import Optional, Callable, TypeVar, Generic, Tuple, List
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 from functools import reduce as functools_reduce
 
 
+@runtime_checkable
 class Comparable(Protocol):
-    def __lt__(self, other: object) -> bool:
-        ...
-
-    def __gt__(self, other: object) -> bool:
-        ...
+    def __lt__(self, other: object) -> bool: ...
+    def __gt__(self, other: object) -> bool: ...
 
 
 KT = TypeVar("KT", bound=Comparable)
@@ -88,7 +86,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
 
     def reduce(
         self,
-        func: Callable[[Tuple[KT, VT], Tuple[KT, VT]], Tuple[KT, VT]],
+        func: Callable[S, Tuple[KT, VT]], S],
         initializer: Optional[S] = None
     ) -> Optional[S]:
         items = self.inorder()
