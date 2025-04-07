@@ -5,7 +5,7 @@ from typing import List, Tuple
 
 
 def build_tree_from_list(pairs: List[Tuple[int, str]]
-) -> KVBinarySearchTree[int, str]:
+                        ) -> KVBinarySearchTree[int, str]:
     tree = KVBinarySearchTree.empty()
     for k, v in pairs:
         tree.insert(k, v)
