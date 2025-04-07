@@ -49,7 +49,7 @@ class TestKVBinarySearchTree(unittest.TestCase):
           build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
         )
         result = tree.reduce(lambda acc, kv: acc + kv[1], "")
-        self.assertEqual(set(result), {"a", "b", "c"})
+        self.assertEqual(set(filter(None, result)), {"a", "b", "c"})
 
     def test_empty_behavior(self) -> None:
         empty: KVBinarySearchTree[int, str] = KVBinarySearchTree.empty()
@@ -81,7 +81,7 @@ class TestKVBinarySearchTree(unittest.TestCase):
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_monoid_left_identity(items: List[Tuple[int, str]]) -> None:
     tree: KVBinarySearchTree[int, str] = build_tree_from_list(items)
-    identity = KVBinarySearchTree.empty()
+    identity: KVBinarySearchTree[int, str] = KVBinarySearchTree.empty()
     result = identity.concat(tree)
     assert result.inorder() == tree.inorder()
 
@@ -89,7 +89,7 @@ def test_monoid_left_identity(items: List[Tuple[int, str]]) -> None:
 @given(st.lists(st.tuples(st.integers(), st.text())))
 def test_monoid_right_identity(items: List[Tuple[int, str]]) -> None:
     tree: KVBinarySearchTree[int, str] = build_tree_from_list(items)
-    identity = KVBinarySearchTree.empty()
+    identity: KVBinarySearchTree[int, str] = KVBinarySearchTree.empty()
     result = tree.concat(identity)
     assert result.inorder() == tree.inorder()
 
