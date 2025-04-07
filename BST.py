@@ -1,7 +1,7 @@
 from typing import Optional, Callable, TypeVar, Generic, Tuple, List
 from functools import reduce as functools_reduce
 
-KT = TypeVar("KT")
+KT = TypeVar("KT", bound=Comparable)
 VT = TypeVar("VT")
 S = TypeVar("S")
 
