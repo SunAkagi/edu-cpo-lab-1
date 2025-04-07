@@ -31,7 +31,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
         self.root = self._insert(self.root, key, value)
 
     def _insert(self, node: Optional[KVTreeNode[KT, VT]], key: KT, value: VT
-               ) -> KVTreeNode[KT, VT]:
+        ) -> KVTreeNode[KT, VT]:
         if node is None:
             return KVTreeNode(key, value)
         if key < node.key:
