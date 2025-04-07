@@ -49,7 +49,7 @@ class TestKVBinarySearchTree(unittest.TestCase):
           build_tree_from_list([(1, "a"), (2, "b"), (3, "c")])
         )
         result = tree.reduce(lambda acc, kv: acc + kv[1], "")
-        self.assertEqual(set(filter(None, result)), {"a", "b", "c"})
+        self.assertEqual(set(filter(None, result or "")), {"a", "b", "c"})
 
     def test_empty_behavior(self) -> None:
         empty: KVBinarySearchTree[int, str] = KVBinarySearchTree.empty()
