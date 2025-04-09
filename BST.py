@@ -115,17 +115,17 @@ class KVBinarySearchTree(Generic[KT, VT]):
         self,
         other: BinaryTreeSet[KT, VT]
     ) -> BinaryTreeSet[KT, VT]:
-    if self.is_empty():
-        return other
-    if other.is_empty():
-        return self
+        if self.is_empty():
+            return other
+        if other.is_empty():
+            return self
 
-    if self.root.key < other.root.key:
-        self.root.right = self.root.right.concat(other)
-        return self
-    else:
-        other.root.left = other.root.left.concat(self)
-        return other
+        if self.root.key < other.root.key:
+            self.root.right = self.root.right.concat(other)
+            return self
+        else:
+            other.root.left = other.root.left.concat(self)
+            return other
 
 
     def delete(self, key: KT) -> None:
