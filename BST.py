@@ -113,8 +113,8 @@ class KVBinarySearchTree(Generic[KT, VT]):
 
     def concat(
         self,
-        other: 'KVBinarySearchTree[KT, VT]',
-    ) -> 'KVBinarySearchTree[KT, VT]':
+        other: Optional['KVBinarySearchTree[KT, VT]'],
+    ) -> Optional['KVBinarySearchTree[KT, VT]']:
         if self.is_empty():
             return other
         if other.is_empty():
