@@ -120,9 +120,6 @@ class KVBinarySearchTree(Generic[KT, VT]):
         if other.is_empty():
             return self
 
-        assert self.root is not None
-        assert other.root is not None
-
         if self.root.key < other.root.key:
             self.root.right = self.concat_trees(self.root.right, other.root)
             return self
@@ -146,9 +143,6 @@ class KVBinarySearchTree(Generic[KT, VT]):
             return tree2
         if tree2 is None:
             return tree1
-
-        assert tree1 is not None
-        assert tree2 is not None
 
         if tree1.key < tree2.key:
             tree1.right = self.concat_trees(tree1.right, tree2)
