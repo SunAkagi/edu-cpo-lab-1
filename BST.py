@@ -121,33 +121,35 @@ class KVBinarySearchTree(Generic[KT, VT]):
             return self
 
         if self.root.key < other.root.key:
-            right = self.root.right or KVBinarySearchTree.empty()
-            new_right = right.concat(other)
-            return KVBinarySearchTree(
-                self.root.key, self.root.value,
-                self.root.left,
-                new_right
-            )
+            if self.root.right is None:
+                self.root.right = other
+            else:
+                self.root.right = self.root.right.concat(other)
+                return self
         elif self.root.key > other.root.key:
-            left = other.root.left or KVBinarySearchTree.empty()
-            new_left = left.concat(self)
-            return KVBinarySearchTree(
-                other.root.key, other.root.value,
-                new_left,
-                other.root.right
-            )
+            if other.root.left is None:
+                other.root.left = self
+            else:
+                other.root.left = other.root.left.concat(self)
+                return other
         else:
-            left1 = self.root.left or KVBinarySearchTree.empty()
-            right1 = self.root.right or KVBinarySearchTree.empty()
-            left2 = other.root.left or KVBinarySearchTree.empty()
-            right2 = other.root.right or KVBinarySearchTree.empty()
-            new_left = left1.concat(left2)
-            new_right = right1.concat(right2)
-            return KVBinarySearchTree(
-                self.root.key, other.root.value,
-                new_left,
-                new_right
-            )
+            if self.root.left is None:
+                left = other.root.left
+            elif other.root.left is None:
+                left = self.root.left
+            else:
+                left = self.root.left.concat(other.root.left)
+
+            if self.root.right is None:
+                right = other.root.right
+            elif other.root.right is None:
+                right = self.root.right
+            else:
+                right = self.root.right.concat(other.root.right)
+
+            self.root.left = left
+            self.root.right = right
+            return self
 
 
     def delete(self, key: KT) -> None:
