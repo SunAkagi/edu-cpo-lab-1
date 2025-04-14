@@ -124,7 +124,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
             self.root.right = self.concat_trees(self.root.right, other.root)
             return self
         elif self.root.key > other.root.key:
-            other.root.left = self.concat_trees(self.root, other.root.left)
+            other.root.right = self.concat_trees(self.root, other.root.right)
             return other
         else:
             self.root.left = self.concat_trees(self.root.left, other.root.left)
@@ -142,7 +142,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
             tree1.right = self.concat_trees(tree1.right, tree2)
             return tree1
         elif tree1.key > tree2.key:
-            tree2.left = self.concat_trees(tree1, tree2.left)
+            tree2.right = self.concat_trees(tree1, tree2.right)
             return tree2
         else:
             tree2.left = self.concat_trees(tree1.left, tree2.left)
