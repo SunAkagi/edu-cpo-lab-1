@@ -159,3 +159,20 @@ class KVBinarySearchTree(Generic[KT, VT]):
         while current.left is not None:
             current = current.left
         return current
+
+    def equals(self, other: 'KVBinarySearchTree[KT, VT]') -> bool:
+        def are_nodes_equal(
+            node1: Optional[KVTreeNode[KT, VT]],
+            node2: Optional[KVTreeNode[KT, VT]]
+        ) -> bool:
+            if node1 is None and node2 is None:
+                return True
+            if node1 is None or node2 is None:
+                return False
+            return (
+                node1.key == node2.key and
+                node1.value == node2.value and
+                are_nodes_equal(node1.left, node2.left) and
+                are_nodes_equal(node1.right, node2.right)
+            )
+        return are_nodes_equal(self.root, other.root)
