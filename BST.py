@@ -141,7 +141,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
         self,
         tree1: Optional[KVTreeNode[KT, VT]],
         tree2: Optional[KVTreeNode[KT, VT]]
-    ) -> KVTreeNode[KT, VT]:
+    ) -> Optional[KVTreeNode[KT, VT]]:
         if tree1 is None:
             return tree2
         if tree2 is None:
