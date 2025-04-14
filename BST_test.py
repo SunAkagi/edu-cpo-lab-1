@@ -1,5 +1,5 @@
 import unittest
-from BST import KVBinarySearchTree
+from BST import KVBinarySearchTree, KVTreeNode
 from hypothesis import given, strategies as st
 from typing import List, Tuple
 from typing import Optional
