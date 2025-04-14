@@ -100,16 +100,22 @@ def test_monoid_right_identity(items: List[Tuple[int, str]]) -> None:
     st.lists(st.tuples(st.integers(), st.text()))
 )
 def test_monoid_associativity(
-  xs: List[Tuple[int, str]],
-  ys: List[Tuple[int, str]],
-  zs: List[Tuple[int, str]]
+    xs: List[Tuple[int, str]],
+    ys: List[Tuple[int, str]],
+    zs: List[Tuple[int, str]]
 ) -> None:
     t1 = build_tree_from_list(xs)
     t2 = build_tree_from_list(ys)
     t3 = build_tree_from_list(zs)
+
+    t1_copy = build_tree_from_list(xs)
+    t2_copy = build_tree_from_list(ys)
+    t3_copy = build_tree_from_list(zs)
+
     left = t1.concat(t2).concat(t3)
-    right = t1.concat(t2.concat(t3))
-    assert sorted(left.inorder()) == sorted(right.inorder())
+    right = t1_copy.concat(t2_copy.concat(t3_copy))
+
+    assert left.equals(right)
 
 
 @given(st.lists(st.tuples(st.integers(), st.text())))
