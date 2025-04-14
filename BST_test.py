@@ -71,7 +71,7 @@ class TestKVBinarySearchTree(unittest.TestCase):
             [(10, "a"), (5, "b"), (15, "c"), (12, "d")]
         )
 
-        def max_depth(node) -> int:
+        def max_depth(node: Optional[KVTreeNode[int, str]]) -> int:
             if node is None:
                 return 0
             return 1 + max(max_depth(node.left), max_depth(node.right))
