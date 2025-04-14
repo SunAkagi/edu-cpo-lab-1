@@ -121,35 +121,29 @@ class KVBinarySearchTree(Generic[KT, VT]):
             return self
 
         if self.root.key < other.root.key:
-            if self.root.right is None:
-                self.root.right = other
-            else:
-                self.root.right = self.root.right.concat(other)
-                return self
-        elif self.root.key > other.root.key:
-            if other.root.left is None:
-                other.root.left = self
-            else:
-                other.root.left = other.root.left.concat(self)
-                return other
-        else:
-            if self.root.left is None:
-                left = other.root.left
-            elif other.root.left is None:
-                left = self.root.left
-            else:
-                left = self.root.left.concat(other.root.left)
-
-            if self.root.right is None:
-                right = other.root.right
-            elif other.root.right is None:
-                right = self.root.right
-            else:
-                right = self.root.right.concat(other.root.right)
-
-            self.root.left = left
-            self.root.right = right
+            self.root.right = self.concat_trees(self.root.right, other.root)
             return self
+        elif self.root.key > other.root.key:
+            other.root.left = self.concat_trees(self.root, other.root.left)
+            return other
+        else:
+            self.root.left = self.concat_trees(self.root.left, other.root.left)
+            self.root.right = self.concat_trees(self.root.right, other.root.right)
+            return self
+
+
+    def concat_trees(self, tree1: KVTreeNode[KT, VT], tree2: KVTreeNode[KT, VT]) -> KVTreeNode[KT, VT]:
+        if tree1 is None:
+            return tree2
+        if tree2 is None:
+            return tree1
+
+        if tree1.key < tree2.key:
+            tree1.right = self.concat_trees(tree1.right, tree2)
+            return tree1
+        else:
+            tree2.left = self.concat_trees(tree1, tree2.left)
+            return tree2
 
 
     def delete(self, key: KT) -> None:
