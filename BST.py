@@ -121,15 +121,33 @@ class KVBinarySearchTree(Generic[KT, VT]):
             return self
 
         if self.root.key < other.root.key:
-            self.root.right = self.root.right.concat(other)
-            return self
+            right = self.root.right or KVBinarySearchTree.empty()
+            new_right = right.concat(other)
+            return KVBinarySearchTree(
+                self.root.key, self.root.value,
+                self.root.left,
+                new_right
+            )
         elif self.root.key > other.root.key:
-            other.root.left = other.root.left.concat(self)
-            return other
+            left = other.root.left or KVBinarySearchTree.empty()
+            new_left = left.concat(self)
+            return KVBinarySearchTree(
+                other.root.key, other.root.value,
+                new_left,
+                other.root.right
+            )
         else:
-            self.root.left = self.root.left.concat(other.root.left)
-            self.root.right = self.root.right.concat(other.root.right)
-            return self
+            left1 = self.root.left or KVBinarySearchTree.empty()
+            right1 = self.root.right or KVBinarySearchTree.empty()
+            left2 = other.root.left or KVBinarySearchTree.empty()
+            right2 = other.root.right or KVBinarySearchTree.empty()
+            new_left = left1.concat(left2)
+            new_right = right1.concat(right2)
+            return KVBinarySearchTree(
+                self.root.key, other.root.value,
+                new_left,
+                new_right
+            )
 
 
     def delete(self, key: KT) -> None:
