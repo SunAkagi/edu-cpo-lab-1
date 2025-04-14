@@ -113,12 +113,15 @@ class KVBinarySearchTree(Generic[KT, VT]):
 
     def concat(
         self,
-        other: Optional['KVBinarySearchTree[KT, VT]'],
-    ) -> Optional['KVBinarySearchTree[KT, VT]']:
+        other: 'KVBinarySearchTree[KT, VT]',
+    ) -> 'KVBinarySearchTree[KT, VT]':
         if self.is_empty():
             return other
         if other.is_empty():
             return self
+
+        assert self.root is not None
+        assert other.root is not None
 
         if self.root.key < other.root.key:
             self.root.right = self.concat_trees(self.root.right, other.root)
