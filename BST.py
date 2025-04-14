@@ -141,8 +141,12 @@ class KVBinarySearchTree(Generic[KT, VT]):
         if tree1.key < tree2.key:
             tree1.right = self.concat_trees(tree1.right, tree2)
             return tree1
-        else:
+        elif tree1.key > tree2.key:
             tree2.left = self.concat_trees(tree1, tree2.left)
+            return tree2
+        else:
+            tree2.left = self.concat_trees(tree1.left, tree2.left)
+            tree2.right = self.concat_trees(tree1.right, tree2.right)
             return tree2
 
 
