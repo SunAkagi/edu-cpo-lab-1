@@ -139,8 +139,8 @@ class KVBinarySearchTree(Generic[KT, VT]):
 
     def concat_trees(
         self,
-        tree1: KVTreeNode[KT, VT],
-        tree2: KVTreeNode[KT, VT]
+        tree1: Optional[KVTreeNode[KT, VT]],
+        tree2: Optional[KVTreeNode[KT, VT]]
     ) -> KVTreeNode[KT, VT]:
         if tree1 is None:
             return tree2
