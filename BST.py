@@ -128,11 +128,17 @@ class KVBinarySearchTree(Generic[KT, VT]):
             return other
         else:
             self.root.left = self.concat_trees(self.root.left, other.root.left)
-            self.root.right = self.concat_trees(self.root.right, other.root.right)
+            self.root.right = self.concat_trees(
+                self.root.right,
+                other.root.right
+            )
             return self
 
-
-    def concat_trees(self, tree1: KVTreeNode[KT, VT], tree2: KVTreeNode[KT, VT]) -> KVTreeNode[KT, VT]:
+    def concat_trees(
+        self,
+        tree1: KVTreeNode[KT, VT],
+        tree2: KVTreeNode[KT, VT]
+    ) -> KVTreeNode[KT, VT]:
         if tree1 is None:
             return tree2
         if tree2 is None:
@@ -148,7 +154,6 @@ class KVBinarySearchTree(Generic[KT, VT]):
             tree2.left = self.concat_trees(tree1.left, tree2.left)
             tree2.right = self.concat_trees(tree1.right, tree2.right)
             return tree2
-
 
     def delete(self, key: KT) -> None:
         self.root = self._delete(self.root, key)
