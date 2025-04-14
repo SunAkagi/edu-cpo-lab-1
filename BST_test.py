@@ -4,6 +4,7 @@ from hypothesis import given, strategies as st
 from typing import List, Tuple
 from typing import Optional
 
+
 def build_tree_from_list(
   pairs: List[Tuple[int, str]]
 ) -> KVBinarySearchTree[int, str]:
