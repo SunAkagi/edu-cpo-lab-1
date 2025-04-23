@@ -95,7 +95,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
         self,
         func: Callable[[S, Tuple[KT, VT]], S],
         initializer: S
-    ) -> Optional[S]:
+    ) -> S:
         items = self.inorder()
         if not items:
             return initializer
