@@ -26,7 +26,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
     def __init__(self, root: Optional[KVTreeNode[KT, VT]] = None):
         self.root = root
 
-        def __eq__(self, other: object) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, KVBinarySearchTree):
             return False
         return dict(self.inorder()) == dict(other.inorder())
