@@ -27,7 +27,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
         self.root = root
 
     def __eq__(self, other: object) -> bool:
-        if not isinstance(other, BinaryTreeSet):
+        if not isinstance(other, KVBinarySearchTree):
             return False
         return dict(to_list(self)) == dict(to_list(other))
 
