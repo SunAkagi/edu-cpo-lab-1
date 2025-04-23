@@ -4,7 +4,7 @@ from functools import reduce as functools_reduce
 
 
 class SupportsLessThan(Protocol):
-     def __lt__(self, other: Any) -> bool: ...
+    def __lt__(self, other: Any) -> bool: ...
 
 
 KT = TypeVar("KT", bound=SupportsLessThan)
@@ -13,9 +13,13 @@ S = TypeVar("S")
 
 
 class KVTreeNode(Generic[KT, VT]):
-    def __init__(self, key: KT, value: VT,
-                 left: Optional['KVTreeNode[KT, VT]'] = None,
-                 right: Optional['KVTreeNode[KT, VT]'] = None):
+    def __init__(
+         self,
+         key: KT,
+         value: VT,
+         left: Optional['KVTreeNode[KT, VT]'] = None,
+         right: Optional['KVTreeNode[KT, VT]'] = None
+    ):
             self.key = key
             self.value = value
             self.left = left
