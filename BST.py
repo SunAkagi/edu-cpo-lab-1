@@ -29,7 +29,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, KVBinarySearchTree):
             return False
-         return self.inorder() == other.inorder()
+        return dict(self.inorder()) == dict(other.inorder())
 
     @staticmethod
     def empty() -> 'KVBinarySearchTree[KT, VT]':
