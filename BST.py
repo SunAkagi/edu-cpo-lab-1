@@ -13,9 +13,12 @@ S = TypeVar("S")
 
 
 class KVTreeNode(Generic[KT, VT]):
-    def __init__(self, key: KT, value: VT,
-                    left: Optional['KVTreeNode[KT, VT]'] = None,
-                    right: Optional['KVTreeNode[KT, VT]'] = None):
+    def __init__(self,
+                 key: KT,
+                 value: VT,
+                 left: Optional['KVTreeNode[KT, VT]'] = None,
+                 right: Optional['KVTreeNode[KT, VT]'] = None
+                ):
         self.key = key
         self.value = value
         self.left = left
