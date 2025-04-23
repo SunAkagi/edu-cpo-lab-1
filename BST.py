@@ -20,8 +20,13 @@ class KVTreeNode(Generic[KT, VT]):
             self.value = value
             self.left = left
             self.right = right
- 
- 
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, BinaryTreeSet):
+            return False
+        return dict(to_list(self)) == dict(to_list(other))
+
+
 class KVBinarySearchTree(Generic[KT, VT]):
     def __init__(self, root: Optional[KVTreeNode[KT, VT]] = None):
         self.root = root
