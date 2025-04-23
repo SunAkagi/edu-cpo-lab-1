@@ -93,18 +93,17 @@ class KVBinarySearchTree(Generic[KT, VT]):
 
     def reduce(
         self,
-        func: Callable[[S, Tuple[KT, VT]], S],
-        initializer: S
-    ) -> S:
+        func: Callable[[Tuple[KT, VT], Tuple[KT, VT]], Tuple[KT, VT]],
+        initializer: Optional[Tuple[KT, VT]] = None
+    ) -> Optional[Tuple[KT, VT]]:
         items = self.inorder()
         if not items:
             return initializer
         if initializer is not None:
             return functools_reduce(func, items, initializer)
         else:
-            return cast(Optional[S], functools_reduce(func, items))
-            acc = cast(S, items[0])
-            return functools_reduce(func, items[1:], acc)
+            return functools_reduce(func, items)
+
 
     def map(
         self,
