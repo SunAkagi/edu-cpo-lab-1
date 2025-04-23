@@ -1,5 +1,5 @@
 from typing import Optional, Callable, TypeVar, Generic, Tuple, List
-from typing import Protocol, Any
+from typing import Protocol, Any, cast
 from functools import reduce as functools_reduce
 
 
@@ -13,13 +13,9 @@ S = TypeVar("S")
 
 
 class KVTreeNode(Generic[KT, VT]):
-    def __init__(
-         self,
-         key: KT,
-         value: VT,
-         left: Optional['KVTreeNode[KT, VT]'] = None,
-         right: Optional['KVTreeNode[KT, VT]'] = None
-    ):
+    def __init__(self, key: KT, value: VT,
+                    left: Optional['KVTreeNode[KT, VT]'] = None,
+                    right: Optional['KVTreeNode[KT, VT]'] = None):
         self.key = key
         self.value = value
         self.left = left
@@ -30,7 +26,7 @@ class KVBinarySearchTree(Generic[KT, VT]):
     def __init__(self, root: Optional[KVTreeNode[KT, VT]] = None):
         self.root = root
 
-    def __eq__(self, other: object) -> bool:
+        def __eq__(self, other: object) -> bool:
         if not isinstance(other, KVBinarySearchTree):
             return False
         return dict(self.inorder()) == dict(other.inorder())
@@ -93,16 +89,17 @@ class KVBinarySearchTree(Generic[KT, VT]):
 
     def reduce(
         self,
-        func: Callable[[Tuple[KT, VT], Tuple[KT, VT]], Tuple[KT, VT]],
-        initializer: Optional[Tuple[KT, VT]] = None
-    ) -> Optional[Tuple[KT, VT]]:
+        func: Callable[[S, Tuple[KT, VT]], S],
+        initializer: Optional[S] = None
+    ) -> Optional[S]:
         items = self.inorder()
         if not items:
             return initializer
         if initializer is not None:
             return functools_reduce(func, items, initializer)
         else:
-            return functools_reduce(func, items)
+            acc = cast(S, items[0])
+            return functools_reduce(func, items[1:], acc)
 
     def map(
         self,
