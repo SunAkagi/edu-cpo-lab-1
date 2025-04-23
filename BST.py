@@ -104,7 +104,6 @@ class KVBinarySearchTree(Generic[KT, VT]):
         else:
             return functools_reduce(func, items)
 
-
     def map(
         self,
         func: Callable[[Tuple[KT, VT]], Tuple[KT, VT]]
