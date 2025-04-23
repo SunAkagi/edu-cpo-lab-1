@@ -116,7 +116,7 @@ def test_monoid_associativity(
     left = t1.concat(t2).concat(t3)
     right = t1_copy.concat(t2_copy.concat(t3_copy))
 
-    assert left.equals(right)
+    assert left = right
 
 
 @given(st.lists(st.tuples(st.integers(), st.text())))
