@@ -20,10 +20,10 @@ class KVTreeNode(Generic[KT, VT]):
          left: Optional['KVTreeNode[KT, VT]'] = None,
          right: Optional['KVTreeNode[KT, VT]'] = None
     ):
-            self.key = key
-            self.value = value
-            self.left = left
-            self.right = right
+        self.key = key
+        self.value = value
+        self.left = left
+        self.right = right
 
 
 class KVBinarySearchTree(Generic[KT, VT]):
